@@ -9,13 +9,19 @@ class Ball {
     this.y = this.radius + Math.random() * (stageHeight - diameter);
   }
 
-  draw(ctx, stageWidth, stageHeight) {
+  draw(ctx, stageWidth, stageHeight, block, block1, block2, block3, block4) {
     this.x += this.vx;
     this.y += this.vy;
 
     this.bounceWindow(stageWidth, stageHeight);
 
-    ctx.fillStyle = "#fdd700";
+    this.bounceBlock(block);
+    this.bounceBlock(block1);
+    this.bounceBlock(block2);
+    this.bounceBlock(block3);
+    this.bounceBlock(block4);
+
+    ctx.fillStyle = "pink";
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
     ctx.fill();
@@ -33,6 +39,31 @@ class Ball {
     } else if (this.y <= minY || this.y >= maxY) {
       this.vy *= -1;
       this.y += this.vy;
+    }
+  }
+  bounceBlock(block) {
+    const minX = block.x - this.radius;
+    const maxX = block.maxX + this.radius;
+    const minY = block.y - this.radius;
+
+    const maxY = block.maxY + this.radius;
+
+    if (this.x > minX && this.x < maxX && this.y > minY && this.y < maxY) {
+      const x1 = Math.abs(minX - this.x);
+      const x2 = Math.abs(this.x - maxX);
+      const y1 = Math.abs(minY - this.y);
+      const y2 = Math.abs(this.y - maxY);
+      const min1 = Math.min(x1, x2);
+      const min2 = Math.min(y1, y2);
+      const min = Math.min(min1, min2);
+
+      if (min == min1) {
+        this.vx *= -1;
+        this.x += this.vx;
+      } else if (min == min2) {
+        this.vy *= -1;
+        this.y += this.vy;
+      }
     }
   }
 }
