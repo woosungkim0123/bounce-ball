@@ -1,30 +1,36 @@
+import { Wave } from "./wave.js";
+
 export class WaveGroup {
   constructor() {
-    this.totalWaves = 3;
+    this.totalWaves = 1;
     // 몇개의 포인트를 하나의 wave에 그릴건지
-    this.totalPoints;
+    this.totalPoints = 2;
+
+    this.color = [
+      "rgba(0,199,235,0.4)",
+      "rgba(0,146,199,0.4)",
+      "rgba(0,87,158,0.4)",
+    ];
+
+    this.waves = [];
+
+    for (let i = 0; i < this.totalWaves; i++) {
+      const wave = new Wave(i, this.totalPoints, this.color[i]);
+      this.waves[i] = wave;
+    }
   }
 
   resize(stageWidth, stageHeight) {
-    this.stageWidth = stageWidth;
-    this.stageHeight = stageHeight;
-
-    this.centerX = stageWidth / 2;
-    this.centerY = stageHeight / 2;
-
-    this.init();
-  }
-
-  init() {
-    this.point = new Point(this.centerX, this.centerY);
+    for (let i = 0; i < this.totalWaves; i++) {
+      const wave = this.waves[i];
+      wave.resize(stageWidth, stageHeight);
+    }
   }
 
   draw(ctx) {
-    ctx.beginPath();
-    ctx.fillStyle = "#ff0000";
-    this.point.update();
-
-    ctx.arc(this.point.x, this.point.y, 30, 0, 2 * Math.PI);
-    ctx.fill();
+    for (let i = 0; i < this.totalWaves; i++) {
+      const wave = this.waves[i];
+      wave.draw(ctx);
+    }
   }
 }
