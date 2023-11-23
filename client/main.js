@@ -1,7 +1,7 @@
 import Ball from "./ball.js";
 import { Block } from "./block.js";
 
-class App {
+class Main {
   constructor() {
     this.canvas = document.createElement("canvas");
     this.ctx = this.canvas.getContext("2d");
@@ -58,5 +58,5 @@ class App {
 }
 
 window.onload = () => {
-  new App();
+  new Main();
 };
